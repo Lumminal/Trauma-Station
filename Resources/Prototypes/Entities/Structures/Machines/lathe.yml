@@ -329,6 +329,7 @@
     - ShuttleBoards
     # Goobstation Packs
     - SharedBoards
+    - ReactorCircuitboards # FH edit
   - type: MaterialStorage
     whitelist: *StandardMaterialWhitelist
   - type: RequireProjectileTarget

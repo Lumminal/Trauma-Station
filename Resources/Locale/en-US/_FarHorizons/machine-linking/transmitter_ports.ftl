@@ -6,3 +6,8 @@ signal-port-description-holographic-generator-field-connected = This port is inv
 
 signal-port-name-holographic-generator-field-disconnected = Field Disconnected
 signal-port-description-holographic-generator-field-disconnected = This port is invoked whenever the field fizzles out.
+signal-port-name-gas-turbine-speed-high = High Speed
+signal-port-description-gas-turbine-speed-high = Speed is higher than optimal.
+
+signal-port-name-gas-turbine-speed-low = Low Speed
+signal-port-description-gas-turbine-speed-low = Speed is lower than optimal.
