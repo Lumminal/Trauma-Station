@@ -8,36 +8,30 @@ namespace Content.Client._FarHorizons.Power.UI;
 /// Initializes a <see cref="NuclearReactorWindow"/> and updates it when new server messages are received.
 /// </summary>
 [UsedImplicitly]
-public sealed class NuclearReactorMonitorBoundUserInterface : BoundUserInterface
+public sealed class NuclearReactorBoundUserInterface : BoundUserInterface
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
 
     [ViewVariables]
     private NuclearReactorWindow? _window;
 
-    public NuclearReactorMonitorBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
+    public NuclearReactorBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
     {
     }
 
     protected override void Open()
     {
-        // Check if opened by a reactor monitor
-        if(!_entityManager.TryGetComponent<NuclearReactorMonitorComponent>(Owner, out var reactorMonitorComponent))
-            return;
-
-        // Check if reactor monitor has an attached entity
-        if (!_entityManager.TryGetEntity(reactorMonitorComponent.reactor, out var reactor) || reactor == null)
-            return;
-
-        // Check if the attached entity is a nuclear reactor and that it's not melted
-        if (!_entityManager.TryGetComponent<NuclearReactorComponent>(reactor, out var reactorComponent) || reactorComponent.Melted)
+        // No UI if Owner is not a reactor or the reactor is melted
+        if (!_entityManager.TryGetComponent<NuclearReactorComponent>(Owner, out var reactorComponent) || reactorComponent.Melted)
             return;
 
         base.Open();
 
         _window = this.CreateWindow<NuclearReactorWindow>();
-        _window.SetEntity(reactor.Value, Owner);
+        _window.SetEntity(Owner);
 
+        _window.ItemActionButtonPressed += OnActionButtonPressed;
+        _window.EjectButtonPressed += OnEjectButtonPressed;
         _window.ControlRodModify += OnControlRodModify;
 
         Update();
@@ -49,6 +43,20 @@ public sealed class NuclearReactorMonitorBoundUserInterface : BoundUserInterface
             return;
 
         _window?.Update(reactorState);
+    }
+
+    private void OnActionButtonPressed(Vector2d vector)
+    {
+        if (_window is null ) return;
+
+        SendPredictedMessage(new ReactorItemActionMessage(vector));
+    }
+
+    private void OnEjectButtonPressed()
+    {
+        if (_window is null) return;
+
+        SendPredictedMessage(new ReactorEjectItemMessage());
     }
 
     private void OnControlRodModify(float amount)
