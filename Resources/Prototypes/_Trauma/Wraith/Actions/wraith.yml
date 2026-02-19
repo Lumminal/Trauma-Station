@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: ActionDarkWhisper
   name: Dark Whisper
   description: Choose a target and you will be able to speak through them for some seconds.

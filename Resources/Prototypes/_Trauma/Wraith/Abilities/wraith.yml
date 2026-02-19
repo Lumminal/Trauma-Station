@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: MidroundWraithAbilities
   name: Midround Wraith Abilities
   categories: [ HideSpawnMenu ]

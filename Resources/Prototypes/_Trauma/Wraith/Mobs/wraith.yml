@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: MobWraithMidround
   parent: MobWraith
   name: Wraith
@@ -6,4 +6,3 @@
   components:
   - type: Wraith
     abilities: MidroundWraithAbilities
-
