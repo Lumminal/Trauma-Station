@@ -1,13 +1,14 @@
 ﻿- type: entity
   parent:
   - SimpleSpaceMobBase
+  - AppearanceShadowDemon
   id: BaseMobShadowDemon
   name: shadow demon
   suffix: ""
   description: A creature that's barely tangible, you can feel its gaze piercing you.
   components:
   - type: Sprite
-    sprite: _Trauma/ShadowDemon/demon.rsi
+    sprite: _Trauma/Mobs/ShadowDemon/demon.rsi
     state: shadow_demon
   - type: Stamina
     baseCritThreshold: 150
@@ -66,7 +67,7 @@
       types:
         Slash: 25
         Structural: 50
-  - type: Evil
+  # - type: Evil
   - type: DemonicWhisper # allows the demon to demonic whisper
   - type: Puller
     needsHands: false
@@ -98,12 +99,9 @@
   - type: NpcFactionMember
     factions:
     - DevilFaction
-  #- type: ActionGrant
-  #  actions:
-  #  - DemonicWhisperAction
   - type: ReplacementAccent
     accent: slaughterDemon # placeholder
-  - type: AlwaysTakeHoly
+  # - type: AlwaysTakeHoly
   - type: Hands
   - type: PressureImmunity
   - type: TriggerOnMobstateChange
@@ -136,5 +134,9 @@
         Heat: 0
     heatDamageThreshold: 666
     coldDamageThreshold: 66
-  # - type: LightDetection TODO: add when done playtesting
-  # - type: LightDetectionDamage TODO: add when done playtesting
+  - type: LightDetection # TODO: add when done playtesting
+  - type: LightDetectionDamage # TODO: add when done playtesting
+  - type: ActionGrant
+    actions:
+    - ShadowDemonicWhisperAction
+    - ShadowCrawlAction
