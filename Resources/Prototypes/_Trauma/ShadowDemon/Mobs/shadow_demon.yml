@@ -1,7 +1,5 @@
 ﻿- type: entity
-  parent:
-  - SimpleSpaceMobBase
-  - AppearanceShadowDemon
+  parent: [AppearanceShadowDemon, SimpleSpaceMobBase]
   id: BaseMobShadowDemon
   name: shadow demon
   suffix: ""
@@ -134,9 +132,8 @@
         Heat: 0
     heatDamageThreshold: 666
     coldDamageThreshold: 66
-  - type: LightDetection # TODO: add when done playtesting
+  - type: LightDetection # TODO: add when done playtesting put this on body
   - type: LightDetectionDamage # TODO: add when done playtesting
   - type: ActionGrant
     actions:
     - ShadowDemonicWhisperAction
-    - ShadowCrawlAction
