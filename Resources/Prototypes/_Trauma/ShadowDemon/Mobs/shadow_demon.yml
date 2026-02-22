@@ -133,7 +133,13 @@
     heatDamageThreshold: 666
     coldDamageThreshold: 66
   - type: LightDetection # TODO: add when done playtesting put this on body
+    onLightLevel: 0.5
   - type: LightDetectionDamage # TODO: add when done playtesting
+    detectionValueRegeneration: 1
+    maxDetection: 8
+    damageToDeal:
+      types:
+        Heat: 16
   - type: ActionGrant
     actions:
     - ShadowDemonicWhisperAction
