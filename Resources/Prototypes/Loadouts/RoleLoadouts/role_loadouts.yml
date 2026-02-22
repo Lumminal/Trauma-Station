@@ -600,7 +600,8 @@
   groups:
   - GroupTankHarness
   - ReporterJumpsuit
-  - ReporterOuterClothing # Goobstation - Bodycams
+  - ReporterHead
+  - ReporterOuterClothing
   - CommonBackpack
   - Glasses
   - Survival
