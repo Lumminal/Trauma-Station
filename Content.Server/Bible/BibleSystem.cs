@@ -111,7 +111,7 @@ namespace Content.Server.Bible
             }
 
             // <Trauma>
-            var bibleUsedEv = new BibleUsed();
+            var bibleUsedEv = new BibleUsedEvent();
             RaiseLocalEvent(args.Target.Value, ref bibleUsedEv);
             // </Trauma>
 
