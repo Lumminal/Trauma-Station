@@ -140,6 +140,7 @@
     damageToDeal:
       types:
         Heat: 16
+  - type: ShadowCocoonMaker
   - type: ActionGrant
     actions:
     - ShadowDemonicWhisperAction
