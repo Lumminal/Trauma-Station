@@ -1,3 +1,4 @@
+# Note: ShadowGrapple exists on the heart of the shadow demon
 - type: entity
   parent: [AppearanceShadowDemon, SimpleSpaceMobBase]
   id: BaseMobShadowDemon
@@ -132,16 +133,17 @@
         Heat: 0
     heatDamageThreshold: 666
     coldDamageThreshold: 66
-  - type: LightDetection # TODO: add when done playtesting put this on body
+  - type: LightDetection
     onLightLevel: 0.5
-  - type: LightDetectionDamage # TODO: add when done playtesting
+  - type: LightDetectionDamage
     detectionValueRegeneration: 1
     maxDetection: 8
     damageToDeal:
       types:
         Heat: 16
   - type: ShadowCocoonMaker
-  - type: ActionGrant
-    actions:
-    - ShadowDemonicWhisperAction
-    - ShadowGrappleAction
+  - type: ShadowCrawl
+  # damageModiferFromLights: 0.5   # | How much damage immunity they get while in crawl form
+  # speedBuff: 8                   # | How fast they move in jaunt
+  # actionCooldown: 4              # | The cooldown when they exit jaunt
+  # actionCooldownAfterGrapple: 10 # | The cooldown they shoot a grapple
