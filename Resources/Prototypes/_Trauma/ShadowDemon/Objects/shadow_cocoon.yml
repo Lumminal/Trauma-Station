@@ -26,12 +26,5 @@
       behaviors:
       - !type:DoActsBehavior
         acts: ["Destruction"]
-  - type: EmitSoundOnSpawn
-    sound:
-      path: /Audio/_Trauma/Mobs/ShadowDemon/shadownode.ogg
-      params:
-        volume: 0.7
-  - type: ShadowCocoon
-    randomSounds:
-      collection: ShadowCocoonHallucinations
+  # - type: ShadowCocoon
 
