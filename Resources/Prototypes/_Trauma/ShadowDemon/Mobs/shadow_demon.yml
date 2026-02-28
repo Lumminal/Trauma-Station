@@ -66,6 +66,7 @@
       types:
         Heat: 8
         Slash: 10
+        Structural: 50
   - type: Evil
   - type: DemonicWhisper # Allows the demon to demonic whisper
   - type: Puller
