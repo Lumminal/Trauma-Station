@@ -141,8 +141,12 @@
     damageToDeal:
       types:
         Heat: 16
-  - type: ShadowCocoonMaker
-  - type: ShadowCrawl
+  - type: LightSpeedModifier # Makes you run faster
+  # requiredLightLevel: 0.25 # | The light level required to activate the speed modifier
+    walkModifier: 1.5
+    sprintModifier: 1.5
+  - type: ShadowCocoonMaker  # Allows you to make shadow cocoons
+  - type: ShadowCrawl        # Allows you to shadow crawl
   # damageModiferFromLights: 0.5   # | How much damage immunity they get while in crawl form
   # speedBuff: 8                   # | How fast they move in jaunt
   # actionCooldown: 4              # | The cooldown when they exit jaunt
