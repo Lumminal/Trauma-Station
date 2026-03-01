@@ -60,7 +60,7 @@
   - type: CombatMode
   - type: MeleeWeapon
     soundHit:
-      collection: FirePunch
+      collection: ShadowDemonPunch
     animation: WeaponArcShadowClaw
     damage:
       types:
