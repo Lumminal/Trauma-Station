@@ -64,8 +64,8 @@
     animation: WeaponArcShadowClaw
     damage:
       types:
-        Heat: 8
-        Slash: 10
+        Heat: 10
+        Slash: 12
         Structural: 50
   - type: Evil
   - type: DemonicWhisper # Allows the demon to demonic whisper
@@ -74,7 +74,7 @@
   - type: Targeting
   - type: Speech # It has same speech patterns as other demons
     speechVerb: SlaughterDemon
-    speechSounds: SlaughterDemon
+    speechSounds: ShadowDemon
   - type: TypingIndicator
     proto: guardian
   - type: Crawler
@@ -107,11 +107,11 @@
   - type: EmitSoundOnTrigger
     sound:
       path: /Audio/_Trauma/Mobs/ShadowDemon/shadowdeath.ogg
-  - type: Vocal # placeholder
+  - type: Vocal
     sounds:
-      Male: SlaughterDemon
-      Female: SlaughterDemon
-      Unsexed: SlaughterDemon
+      Male: ShadowDemon
+      Female: ShadowDemon
+      Unsexed: ShadowDemon
   - type: ZombieImmune
   - type: SlowOnDamage
     speedModifierThresholds:
@@ -139,13 +139,15 @@
     damageToDeal:
       types:
         Heat: 16
-  - type: LightSpeedModifier # Makes you run faster
-  # requiredLightLevel: 0.25 # | The light level required to activate the speed modifier
+  - type: LightSpeedModifier       # Makes you run faster on light or darkness
+  # requiredLightLevel: 0.25       # | The light level required to activate the speed modifier
     walkModifier: 1.5
     sprintModifier: 1.5
-  - type: ShadowCocoonMaker  # Allows you to make shadow cocoons
-  - type: ShadowCrawl        # Allows you to shadow crawl
+  - type: ShadowCocoonMaker      # Allows you to make shadow cocoons
+  # cocoonDelay: 4                 # | How long it to takes to cocoon someone
+  - type: ShadowCrawl            # Allows you to shadow crawl
+    phaseIn: ShadowDemonPhaseIn
+    phaseOut: ShadowDemonPhaseOut
   # damageModiferFromLights: 0.5   # | How much damage immunity they get while in crawl form
-  # speedBuff: 8                   # | How fast they move in jaunt
   # actionCooldown: 4              # | The cooldown when they exit jaunt
   # actionCooldownAfterGrapple: 10 # | The cooldown they shoot a grapple

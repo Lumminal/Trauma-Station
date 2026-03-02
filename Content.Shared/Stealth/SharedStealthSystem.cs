@@ -238,4 +238,13 @@ public abstract class SharedStealthSystem : EntitySystem
         comp.ThermalsImmune = value;
     }
     // Goobstation end
+
+    // <Trauma>
+    public void SetRevealOnDamage(EntityUid uid, bool value, StealthComponent? comp = null)
+    {
+        if (!Resolve(uid, ref comp))
+            return;
+        comp.RevealOnDamage = value;
+    }
+    // </Trauma>
 }
