@@ -131,6 +131,9 @@
         Heat: 0
     heatDamageThreshold: 666
     coldDamageThreshold: 66
+  - type: ActionGrant
+    actions:
+      - ShadowDemonicWhisperAction
   - type: LightDetection
     onLightLevel: 0.5
   - type: LightDetectionDamage
