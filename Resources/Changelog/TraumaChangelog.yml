@@ -3372,3 +3372,10 @@ Entries:
   id: 405
   time: '2026-03-02T11:09:04.0000000+00:00'
   url: https://github.com/Trauma-Station/Trauma-Station/pull/947
+- author: deltanedas
+  changes:
+  - type: Fix
+    message: Fixed stunprod not being able to stun anything.
+  id: 406
+  time: '2026-03-02T14:52:34.0000000+00:00'
+  url: https://github.com/Trauma-Station/Trauma-Station/pull/953
