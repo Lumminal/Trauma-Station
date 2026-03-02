@@ -28,7 +28,6 @@ public sealed class CardSystem : EntitySystem
 {
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly CardStackSystem _cardStack = default!;
-    [Dependency] private readonly CardDeckSystem _cardDeck = default!;
     [Dependency] private readonly CardHandSystem _cardHand = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
@@ -120,11 +119,11 @@ public sealed class CardSystem : EntitySystem
         bool? flip = null;
         if (HasComp<CardDeckComponent>(second))
         {
-            cardStack = SpawnInSameParent(_cardDeck.CardDeckBaseName, first);
+            cardStack = SpawnInSameParent(CardDeckSystem.CardDeckBaseName, first);
         }
         else if (HasComp<CardHandComponent>(second))
         {
-            cardStack = SpawnInSameParent(_cardHand.CardHandBaseName, first);
+            cardStack = SpawnInSameParent(CardHandSystem.CardHandBaseName, first);
             if(TryComp<CardHandComponent>(cardStack, out var stackHand))
                 stackHand.Flipped = firstComp.Flipped;
             flip = firstComp.Flipped;

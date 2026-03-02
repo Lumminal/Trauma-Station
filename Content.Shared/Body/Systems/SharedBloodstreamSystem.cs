@@ -40,7 +40,7 @@ public abstract partial class SharedBloodstreamSystem : EntitySystem // Trauma -
     [Dependency] protected readonly SharedSolutionContainerSystem SolutionContainer = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    //[Dependency] private readonly SharedPopupSystem _popup = default!; // Trauma - not used anymore
     [Dependency] private readonly SharedPuddleSystem _puddle = default!;
     [Dependency] private readonly StatusEffectsSystem _status = default!;
     [Dependency] private readonly AlertsSystem _alertsSystem = default!;
@@ -305,6 +305,14 @@ public abstract partial class SharedBloodstreamSystem : EntitySystem // Trauma -
     private void OnRejuvenate(Entity<BloodstreamComponent> ent, ref RejuvenateEvent args)
     {
         TryModifyBleedAmount(ent.AsNullable(), -ent.Comp.BleedAmount);
+        // <Trauma> - force it to get reset despite any desync in TMBA
+        ent.Comp.BleedAmount = 0;
+        ent.Comp.BleedAmountFromWounds = 0;
+        ent.Comp.BleedAmountNotFromWounds = 0;
+        DirtyField(ent, ent.Comp, nameof(BloodstreamComponent.BleedAmount));
+        DirtyField(ent, ent.Comp, nameof(BloodstreamComponent.BleedAmountFromWounds));
+        DirtyField(ent, ent.Comp, nameof(BloodstreamComponent.BleedAmountNotFromWounds));
+        // </Trauma>
 
         if (SolutionContainer.ResolveSolution(ent.Owner, ent.Comp.BloodSolutionName, ref ent.Comp.BloodSolution))
         {
