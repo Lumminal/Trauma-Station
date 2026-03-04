@@ -1,4 +1,4 @@
-﻿using Content.Shared.Stealth.Components;
+using Content.Shared.Stealth.Components;
 
 namespace Content.Shared.Stealth;
 
