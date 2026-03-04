@@ -48,6 +48,7 @@ public sealed partial class InjectorSystem : EntitySystem
 
     public override void Initialize()
     {
+        SubscribeLocalEvent<InjectorComponent, BeforeRangedInteractEvent>(OnBeforeRangedInteract); // Trauma
         SubscribeLocalEvent<InjectorComponent, UseInHandEvent>(OnInjectorUse);
         SubscribeLocalEvent<InjectorComponent, AfterInteractEvent>(OnInjectorAfterInteract);
         SubscribeLocalEvent<InjectorComponent, InjectorDoAfterEvent>(OnInjectDoAfter);
@@ -203,7 +204,10 @@ public sealed partial class InjectorSystem : EntitySystem
 
         if (!_doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, user, doAfterTime, new InjectorDoAfterEvent(), injector.Owner, target: target, used: injector.Owner)
         {
-            BreakOnMove = true,
+            // <Trauma>
+            BreakOnMove = injector.Comp.BreakOnMove,
+            DistanceThreshold = injector.Comp.InteractionRangeOverride ?? 1.5f,
+            // </Trauma>
             BreakOnWeightlessMove = false,
             BreakOnDamage = true,
             NeedHand = injector.Comp.NeedHand,
@@ -321,7 +325,10 @@ public sealed partial class InjectorSystem : EntitySystem
 
         return _doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, user, doAfterTime, new InjectorDoAfterEvent(), injector.Owner, target: target, used: injector.Owner)
         {
-            BreakOnMove = true,
+            // <Trauma>
+            BreakOnMove = injector.Comp.BreakOnMove,
+            DistanceThreshold = injector.Comp.InteractionRangeOverride ?? 1.5f,
+            // </Trauma>
             BreakOnWeightlessMove = false,
             BreakOnDamage = true,
             NeedHand = injector.Comp.NeedHand,
@@ -453,6 +460,13 @@ public sealed partial class InjectorSystem : EntitySystem
     /// <returns>True if the injection was successful, false if not.</returns>
     private bool TryInject(Entity<InjectorComponent> injector, EntityUid user, EntityUid target, Entity<SolutionComponent> targetSolution, bool asRefill)
     {
+        // <Trauma>
+        if (TryGetKnowledgeFirstAidFail(user, target))
+        {
+            return false;
+        }
+        // </Trauma>
+
         if (GetSolutionEnt(injector) is not {} solutionEnt || // Trauma - use GetSolutionEnt
             solutionEnt.Comp.Solution.Volume == 0) // Trauma - use solutionEnt above
         {
@@ -580,9 +594,16 @@ public sealed partial class InjectorSystem : EntitySystem
     {
         if (GetSolutionEnt(injector) is not {} solutionEnt || solutionEnt.Comp.Solution.AvailableVolume == 0) // Trauma - use GetSolutionEnt
         {
-            _popup.PopupClient("injector-component-cannot-toggle-draw-message", user, user);
+            _popup.PopupClient(Loc.GetString("injector-component-cannot-toggle-draw-message"), user, user); // Trauma - added Loc.GetString
             return false;
         }
+
+        // <Trauma>
+        if (TryGetKnowledgeFirstAidFail(user, target))
+        {
+            return false;
+        }
+        // </Trauma>
 
         var solution = solutionEnt.Comp.Solution; // Trauma
         var applicableTargetSolution = targetSolution.Comp.Solution;
@@ -662,6 +683,16 @@ public sealed partial class InjectorSystem : EntitySystem
         var targetIdentity = Identity.Entity(target, EntityManager);
         var finalMessage = Loc.GetString(msg, ("amount", transferAmount), ("target", targetIdentity));
         _popup.PopupClient(finalMessage, target, user);
+
+        // <Trauma>
+        if (_prototypeManager.Resolve(injector.Comp.ActiveModeProtoId, out var activeMode))
+        {
+            if (activeMode.DrawPopupTarget != null && target.Owner != user)
+                _popup.PopupClient(Loc.GetString(activeMode.DrawPopupTarget), target, target);
+
+            _audio.PlayPredicted(activeMode.DrawSound, target, user);
+        }
+        // </Trauma>
 
         AfterDraw(injector, user, target);
     }

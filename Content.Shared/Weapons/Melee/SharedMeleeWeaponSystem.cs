@@ -1,8 +1,11 @@
 // <Trauma>
+using Content.Goobstation.Common.CCVar;
+using Content.Trauma.Common.Knowledge.Components;
+using Content.Trauma.Common.Knowledge.Systems;
+using Content.Trauma.Common.MartialArts;
 using Content.Goobstation.Common.Weapons;
-using Content.Goobstation.Common.MartialArts;
 using Content.Lavaland.Common.Weapons;
-using Content.Medical.Common.Targeting;
+using Content.Shared._Shitcode.Heretic.Components;
 using Content.Shared.Coordinates;
 using Content.Shared.Random.Helpers;
 using Robust.Shared.Physics.Components;
@@ -56,9 +59,9 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
 {
     [Dependency] protected readonly IGameTiming Timing = default!;
     [Dependency] protected readonly IMapManager MapManager = default!;
-    [Dependency] private   readonly INetManager _netMan = default!;
+    //[Dependency] private   readonly INetManager _netMan = default!; // Trauma - now unused
     [Dependency] private   readonly IPrototypeManager _protoManager = default!;
-    [Dependency] private   readonly IRobustRandom _random = default!;
+    //[Dependency] private   readonly IRobustRandom _random = default!; // Trauma - now unused
     [Dependency] protected readonly ISharedAdminLogManager AdminLogger = default!;
     [Dependency] protected readonly ActionBlockerSystem Blocker = default!;
     [Dependency] protected readonly DamageableSystem Damageable = default!;
@@ -294,6 +297,9 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
         if (user != uid) // Goobstation
             RaiseLocalEvent(user, ref ev);
 
+        // <Trauma>
+        AdjustAttackRate(user, ref ev);
+        // </Trauma>
         return ev.Rate * ev.Multipliers;
     }
 
@@ -428,6 +434,18 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
                     return false;
                 }
 
+                // <Trauma>
+                if (TryComp(target, out TargetInteractionRelayComponent? relay) && relay.RelayMelee &&
+                    Exists(relay.RelayEntity) && relay.RelayEntity.Value != target)
+                {
+                    return AttemptAttack(user,
+                        weaponUid,
+                        weapon,
+                        new LightAttackEvent(GetNetEntity(relay.RelayEntity.Value), light.Weapon, light.Coordinates),
+                        session);
+                }
+                // </Trauma>
+
                 if (!Blocker.CanAttack(user, target, (weaponUid, weapon)))
                     return false;
 
@@ -449,6 +467,17 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
                     // Target was lightly attacked & deleted.
                     return false;
                 }
+
+                // <Trauma>
+                if (TryComp(target, out relay) && relay.RelayMelee && Exists(relay.RelayEntity))
+                {
+                    return AttemptAttack(user,
+                        weaponUid,
+                        weapon,
+                        new DisarmAttackEvent(GetNetEntity(relay.RelayEntity.Value), disarm.Coordinates),
+                        session);
+                }
+                // </Trauma>
 
                 if (!Blocker.CanAttack(user, target, (weaponUid, weapon), true))
                     return false;
@@ -557,6 +586,7 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
         // For consistency with wide attacks stuff needs damageable.
         if (Deleted(target) ||
             !HasComp<DamageableComponent>(target) ||
+            LightAttackMiss(user, target.Value) || // Trauma
             !TryComp(target, out TransformComponent? targetXform)) // Goob edit
         {
             // Leave IsHit set to true, because the only time it's set to false
@@ -599,6 +629,9 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
         if (hitEvent.Handled)
             return;
 
+        // <Trauma>
+        AddExperienceLight(target.Value);
+        // </Trauma>
         var targets = new List<EntityUid>(1)
         {
             target.Value
@@ -675,6 +708,9 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
         var resistanceBypass = GetResistanceBypass(meleeUid, user, component);
         var entities = GetEntityList(ev.Entities);
 
+        // <Trauma>
+        HeavyAttackMiss(user, out var melee, ref entities);
+        // </Trauma>
         if (entities.Count == 0)
         {
             if (meleeUid == user)
@@ -776,10 +812,9 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
         }
 
         var appliedDamage = new DamageSpecifier();
-        // <Goob>
-        var seed = SharedRandomExtensions.HashCodeCombine(GetNetEntity(meleeUid).Id, (int) Timing.CurTick.Value);
-        var random = new System.Random(seed);
-        // </Goob>
+        // <Trauma>
+        var random = SharedRandomExtensions.PredictedRandom(Timing, GetNetEntity(meleeUid));
+        // </Trauma>
 
         for (var i = targets.Count - 1; i >= 0; i--)
         {
@@ -849,14 +884,27 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
 
         // goob edit - stunmeta
         if (TryComp<StaminaComponent>(user, out var stamina) && entities.Count != 0)
+        {
+            // <Trauma>
+            var staminaDamage = component.HeavyStaminaCost * entities.Count;
+            AdjustStaminaDamage(melee, ref staminaDamage);
+            // </Trauma>
             // make it not immediate to prevent annoying stamcrits
-            _stamina.TakeStaminaDamage(user, component.HeavyStaminaCost * (entities.Count - 1), stamina, visual: false, immediate: false);
+            _stamina.TakeStaminaDamage(user, staminaDamage, stamina, visual: false, immediate: false);
+        }
 
+        // <Trauma>
+        AddExperienceHeavy(user, ref entities);
+        // </Trauma>
         return true;
     }
 
     public HashSet<EntityUid> ArcRayCast(Vector2 position, Angle angle, Angle arcWidth, float range, MapId mapId, EntityUid ignore) // Goob edit
     {
+        // <Trauma> - if the user is in a mech, ignore that mech for raycasts. the user can't collide inside the mech anyway
+        if (_relayQuery.CompOrNull(ignore)?.RelayEntity is {} relayed)
+            ignore = relayed;
+        // </Trauma>
         // TODO: This is pretty sucky.
         var widthRad = arcWidth;
         var increments = 1 + 35 * (int) Math.Ceiling(widthRad / (2 * Math.PI));
@@ -968,6 +1016,10 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
         if (Deleted(target))
             return true; // Trauma - still do the animation
 
+        // <Trauma>
+        if (DisarmMiss(user, out var melee))
+            return true;
+        // </Trauma>
         if (user == target) // Goobstation
         {
             _meleeSound.PlaySwingSound(user, meleeUid, component);
@@ -1055,6 +1107,9 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem // Trauma -
             return true;
         }
 
+        // <Trauma>
+        DisarmExperience(melee, user, target);
+        // </Trauma>
         ShoveOrDisarmPopup(true);
 
         return true;
