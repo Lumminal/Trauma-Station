@@ -1,4 +1,4 @@
-﻿- type: rules
+- type: rules
   id: NearService
   rules:
   - !type:InDepartmentAreaRule
