@@ -1,0 +1,47 @@
+﻿- type: rules
+  id: NearService
+  rules:
+  - !type:InDepartmentAreaRule
+    department: Service
+
+- type: rules
+  id: NearCargo
+  rules:
+  - !type:InDepartmentAreaRule
+    department: Cargo
+
+- type: rules
+  id: NearCivilian
+  rules:
+  - !type:InDepartmentAreaRule
+    department: Civilian
+
+- type: rules
+  id: NearCommand
+  rules:
+  - !type:InDepartmentAreaRule
+    department: Command
+
+- type: rules
+  id: NearEngineering
+  rules:
+  - !type:InDepartmentAreaRule
+    department: Engineering
+
+- type: rules
+  id: NearMedical
+  rules:
+  - !type:InDepartmentAreaRule
+    department: Medical
+
+- type: rules
+  id: NearScience
+  rules:
+  - !type:InDepartmentAreaRule
+    department: Science
+
+- type: rules
+  id: NearSecurity
+  rules:
+  - !type:InDepartmentAreaRule
+    department: Security

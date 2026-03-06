@@ -1,0 +1,26 @@
+﻿using Content.Shared.Random.Rules;
+using Content.Shared.Roles;
+using Content.Trauma.Shared.Areas;
+using Robust.Shared.Prototypes;
+
+namespace Content.Trauma.Shared.Random.Rules;
+
+/// <summary>
+/// Returns true if the attached entity is inside an area
+/// </summary>
+public sealed partial class InDepartmentAreaRule : RulesRule
+{
+    [DataField]
+    public ProtoId<DepartmentPrototype> Department;
+
+    private AreaSystem? _area;
+
+    public override bool Check(EntityManager entManager, EntityUid uid)
+    {
+        _area ??= entManager.System<AreaSystem>();
+
+        return _area.GetArea(uid) is not { } area
+               || _area.GetAreaDepartment(area) is not { } areaDepartment
+               || areaDepartment != Department;
+    }
+}
