@@ -19,8 +19,9 @@ public sealed partial class InDepartmentAreaRule : RulesRule
     {
         _area ??= entManager.System<AreaSystem>();
 
-        return _area.GetArea(uid) is not { } area
-               || _area.GetAreaDepartment(area) is not { } areaDepartment
-               || areaDepartment != Department;
+        return _area.GetArea(uid) is { } area
+               && _area.GetAreaDepartment(area) is { } areaDepartment
+               && areaDepartment == Department
+                                 != Inverted;
     }
 }
