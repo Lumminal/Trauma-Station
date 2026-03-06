@@ -6,7 +6,7 @@ using Robust.Shared.Prototypes;
 namespace Content.Trauma.Shared.Random.Rules;
 
 /// <summary>
-/// Returns true if the attached entity is inside an area
+/// Returns true if the attached entity is inside an area's department
 /// </summary>
 public sealed partial class InDepartmentAreaRule : RulesRule
 {
