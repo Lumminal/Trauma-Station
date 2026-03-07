@@ -1,4 +1,6 @@
-﻿using Content.Shared.Random.Rules;
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+using Content.Shared.Random.Rules;
 using Content.Trauma.Shared.Areas;
 using Robust.Shared.Prototypes;
 
