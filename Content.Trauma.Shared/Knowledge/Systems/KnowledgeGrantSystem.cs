@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-using Content.Shared._EinsteinEngines.Language.Components;
 using Content.Shared.Body;
 using Content.Shared.DoAfter;
 using Content.Shared.Interaction.Events;
@@ -38,7 +37,8 @@ public sealed class KnowledgeGrantSystem : EntitySystem
 
     private void OnKnowledgeGrantInit(Entity<KnowledgeGrantComponent> ent, ref MapInitEvent args)
     {
-        _knowledge.AddKnowledgeUnits(ent.Owner, ent.Comp.Skills);
+        // don't need popups for default knowledge
+        _knowledge.AddKnowledgeUnits(ent.Owner, ent.Comp.Skills, popup: false);
         RemComp(ent.Owner, ent.Comp);
     }
 
@@ -59,7 +59,11 @@ public sealed class KnowledgeGrantSystem : EntitySystem
 
     private void OnUseInHand(Entity<KnowledgeGrantOnUseComponent> ent, ref UseInHandEvent args)
     {
+        if (args.Handled)
+            return;
+
         StartLearningDoAfter(args.User, ent);
+        args.Handled = true;
     }
 
     private void OnDoAfter(Entity<KnowledgeGrantOnUseComponent> ent, ref KnowledgeLearnDoAfterEvent args)
@@ -72,48 +76,36 @@ public sealed class KnowledgeGrantSystem : EntitySystem
         if (_net.IsClient)
         {
             // This forces the UI to update after learning if its open.
-            var evNetUpdate = new UpdateExperienceEvent();
-            RaiseLocalEvent(args.User, ref evNetUpdate);
+            var updateEv = new UpdateExperienceEvent();
+            RaiseLocalEvent(args.User, ref updateEv);
         }
     }
 
     private void DoAfter(Entity<KnowledgeGrantOnUseComponent> ent, ref KnowledgeLearnDoAfterEvent args)
     {
-        if (!_timing.IsFirstTimePredicted)
+        var user = args.User;
+        if (!_timing.IsFirstTimePredicted || _knowledge.GetContainer(user) is not { } brain)
             return;
 
-        foreach (var skill in ent.Comp.Experience)
+        bool hasLearned = false;
+        foreach (var (id, xp) in ent.Comp.Experience)
         {
-            if (_knowledge.TryGetKnowledgeUnit(args.User, skill.Key) is not { } foundSkill)
-            {
-                _knowledge.TryAddKnowledgeUnit(args.User, (skill.Key, 0));
+            if (_knowledge.EnsureKnowledge(brain, id, popup: true) is not { } skill)
                 continue;
-            }
 
-            if (TryComp<KnowledgeComponent>(foundSkill, out var foundComp) && (!ent.Comp.Skills.TryGetValue(skill.Key, out var skillCap) || (foundComp.Level < skillCap || skillCap < 0)))
-            {
-                var ev = new AddExperienceEvent(skill.Key, skill.Value);
-                RaiseLocalEvent(args.User, ref ev);
-            }
-            else
-            {
-                _popup.PopupClient(Loc.GetString("knowledge-could-not-learn", ("knowledge", _knowledge.KnowledgeString(foundSkill))), args.User, args.User, PopupType.Small);
-            }
+            if (!(!ent.Comp.Skills.TryGetValue(id, out var skillCap) || (skill.Comp.Level < skillCap || skillCap < 0)))
+                continue;
+
+            hasLearned = true;
+            _knowledge.AddExperience(skill, user, xp, skillCap);
         }
+
         args.Handled = true;
 
-        bool canStillLearn = false;
-        foreach (var skill in ent.Comp.Experience)
-        {
-            if (_knowledge.TryGetKnowledgeUnit(args.User, skill.Key) is { } foundSkill && TryComp<KnowledgeComponent>(foundSkill, out var foundComp) && (!ent.Comp.Skills.TryGetValue(skill.Key, out var skillCap) || (foundComp.Level < skillCap || skillCap < 0)))
-            {
-                canStillLearn = true;
-                break;
-            }
-        }
-
-        if (canStillLearn)
+        if (hasLearned)
             StartLearningDoAfter(args.User, ent);
+        else
+            _popup.PopupClient(Loc.GetString("knowledge-could-not-learn"), args.User, args.User, PopupType.Small);
     }
 }
 

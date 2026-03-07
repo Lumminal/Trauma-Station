@@ -80,14 +80,6 @@ public partial class MartialArtsSystem
                 ent.Comp.LastAttacks.RemoveRange(0, difference);
         }
         CheckCombo(ent, ref args);
-        if (targetState.CurrentState == MobState.Alive && args.Type != ComboAttackType.Hug)
-        {
-            if (Prototype(ent.Owner)?.ID is { } prototypeId)
-            {
-                var ev = new AddExperienceEvent(prototypeId, 1);
-                RaiseLocalEvent(args.Performer, ref ev);
-            }
-        }
         RaiseLocalEvent(ent, ref afterEv);
     }
 
@@ -110,10 +102,10 @@ public partial class MartialArtsSystem
             var list = ent.Comp.LastAttacks.GetRange(sum, proto.AttackTypes.Count).AsEnumerable();
             var attackList = proto.AttackTypes.AsEnumerable();
 
-            if (!list.SequenceEqual(attackList))
+            if (!TryComp<KnowledgeComponent>(ent, out var skillComponent) || skillComponent.Level < proto.LevelRequired || (skillComponent.Level > proto.LevelExceeded && proto.LevelExceeded > 0))
                 continue;
 
-            if (!TryComp<KnowledgeComponent>(ent, out var skillComponent) || skillComponent.Level < proto.LevelRequired || (skillComponent.Level > proto.LevelExceeded && proto.LevelExceeded > 0))
+            if (!list.SequenceEqual(attackList))
                 continue;
 
             success = true;
@@ -138,14 +130,13 @@ public partial class MartialArtsSystem
 
         ent.Comp.LastAttacks.Clear();
 
-        if (TryComp<MartialArtsKnowledgeComponent>(ent, out var martialArtsComp) && !martialArtsComp.Blocked && _mobState.IsAlive(target))
+        if (TryComp<MartialArtsKnowledgeComponent>(ent, out var martialArtsComp) && !martialArtsComp.Blocked && _mobState.IsAlive(target) && proto.GiveExperience)
         {
-            var prototypeId = Prototype(ent)?.ID;
-            if (prototypeId is { })
-            {
-                var ev = new AddExperienceEvent(prototypeId, 1);
-                RaiseLocalEvent(performer, ref ev);
-            }
+            if (Prototype(ent)?.ID is not { } prototypeId)
+                return;
+            // TODO: limit it to be based on your opponent's martial art level + 10
+            var ev = new AddExperienceEvent(prototypeId, 1, 10);
+            RaiseLocalEvent(performer, ref ev);
         }
 
         Dirty(ent);
