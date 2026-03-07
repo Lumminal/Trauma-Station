@@ -134,11 +134,7 @@ public sealed class AreaSystem : EntitySystem
     /// </summary>
     public EntProtoId? GetAreaPrototype(EntityUid area)
     {
-        var proto = MetaData(area).EntityPrototype;
-        if (proto is not {} entityProto)
-            return null;
-
-        return entityProto;
+        return Prototype(area)?.ID;
     }
 
     /// <summary>

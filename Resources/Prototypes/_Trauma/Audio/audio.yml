@@ -3,69 +3,69 @@
 #
 # Rules
 - type: rules
-  id: NearServiceArea
+  id: InServiceArea
   rules:
   - !type:InDepartmentAreaRule
     department: Service
 
 - type: rules
-  id: NearCargoArea
+  id: InCargoArea
   rules:
   - !type:InDepartmentAreaRule
     department: Cargo
 
 - type: rules
-  id: NearCivilianArea
+  id: InCivilianArea
   rules:
   - !type:InDepartmentAreaRule
     department: Civilian
 
 - type: rules
-  id: NearCommandArea
+  id: InCommandArea
   rules:
   - !type:InDepartmentAreaRule
     department: Command
 
 - type: rules
-  id: NearEngineeringArea
+  id: InEngineeringArea
   rules:
   - !type:InDepartmentAreaRule
     department: Engineering
 
 - type: rules
-  id: NearMedicalArea
+  id: InMedicalArea
   rules:
   - !type:InDepartmentAreaRule
     department: Medical
 
 - type: rules
-  id: NearScienceArea
+  id: InScienceArea
   rules:
   - !type:InDepartmentAreaRule
     department: Science
 
 - type: rules
-  id: NearSecurityArea
+  id: InSecurityArea
   rules:
   - !type:InDepartmentAreaRule
     department: Security
 
 - type: rules
-  id: NearMaintsArea
+  id: InMaintsArea
   rules:
   - !type:InAreaRule
     areas:
     - AreaMaints
 
 - type: rules
-  id: NearRadstormArea
+  id: InRadstormArea
   rules:
   - !type:InAreaRule
     areas:
     - AreaRadstorm
 
 - type: rules
-  id: NearHolodeckArea
+  id: InHolodeckArea
   rules:
   - !type:InAreaRule
     areas:

@@ -9,7 +9,7 @@ namespace Content.Trauma.Shared.Random.Rules;
 /// </summary>
 public sealed partial class InAreaRule : RulesRule
 {
-    [DataField]
+    [DataField(required: true)]
     public HashSet<EntProtoId> Areas;
 
     private AreaSystem? _area;
