@@ -1,3 +1,7 @@
+# It's best to use fadeIn and interruptable parameters when creating a new ambientMusic prototype for areas,
+# with a high priority number (e.g. 10) so it has a higher chance to play the music.
+#
+# Rules
 - type: rules
   id: NearServiceArea
   rules:
@@ -45,3 +49,24 @@
   rules:
   - !type:InDepartmentAreaRule
     department: Security
+
+- type: rules
+  id: NearMaintsArea
+  rules:
+  - !type:InAreaRule
+    areas:
+    - AreaMaints
+
+- type: rules
+  id: NearRadstormArea
+  rules:
+  - !type:InAreaRule
+    areas:
+    - AreaRadstorm
+
+- type: rules
+  id: NearHolodeckArea
+  rules:
+  - !type:InAreaRule
+    areas:
+    - AreaHolodeck
