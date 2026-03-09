@@ -3953,3 +3953,10 @@ Entries:
   id: 465
   time: '2026-03-09T07:05:34.0000000+00:00'
   url: https://github.com/Trauma-Station/Trauma-Station/pull/1142
+- author: deltanedas
+  changes:
+  - type: Add
+    message: The PA now has an access wire like most other machines do.
+  id: 466
+  time: '2026-03-09T08:09:08.0000000+00:00'
+  url: https://github.com/Trauma-Station/Trauma-Station/pull/1148
