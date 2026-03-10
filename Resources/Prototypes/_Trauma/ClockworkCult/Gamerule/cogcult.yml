@@ -1,0 +1,17 @@
+﻿- type: entity
+  parent: BaseGameRule
+  id: ClockworkCult
+  components:
+  - type: ClockworkCultistRule
+  - type: GameRule # placeholder
+    chaosScore: 350
+    minPlayers: 15
+  - type: AntagSelection
+    selectionTime: IntraPlayerSpawn
+    agentName: role-clockwork-cultist
+    definitions:
+    - prefRoles: [ ClockworkCult ]
+      max: 6
+      playerRatio: 20
+      mindRoles:
+      - MindRoleClockworkCultist

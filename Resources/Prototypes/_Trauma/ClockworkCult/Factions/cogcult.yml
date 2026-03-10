@@ -1,0 +1,15 @@
+﻿- type: npcFaction
+  id: ClockworkCult
+  hostile:
+  - NanoTrasen
+  - Syndicate
+  - Zombie
+  - Revolutionary
+  - Wizard
+  - Changeling
+  - Heretic
+  - PirateFaction
+  - Xeno
+  - Shadowling
+  - SimpleHostile
+  - Dragon

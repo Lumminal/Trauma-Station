@@ -1,0 +1,11 @@
+﻿- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleClockworkCultist
+  name: Clockwork Cultist Role
+  components:
+  - type: MindRole
+    antagPrototype: ClockworkCult
+    exclusiveAntag: true
+    roleType: TeamAntagonist
+    subtype: role-clockwork-cultist
+  - type: ClockworkCultistRole
