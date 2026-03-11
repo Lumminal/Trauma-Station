@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Shared.Prototypes;
+using Content.Trauma.Shared.ClockworkCult.Slab;
+using Robust.Shared.Containers;
 using Robust.Shared.Prototypes;
 
 namespace Content.Trauma.Shared.ClockworkCult.Scripture;
@@ -14,6 +16,7 @@ namespace Content.Trauma.Shared.ClockworkCult.Scripture;
 public sealed class ScriptureSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
 
     /// <summary>
     /// All entity prototypes with <see cref="ScriptureComponent"/>.
@@ -28,6 +31,9 @@ public sealed class ScriptureSystem : EntitySystem
 
         SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
 
+        SubscribeLocalEvent<ScriptureContainerComponent, ComponentInit>(OnCompInit);
+        SubscribeLocalEvent<ScriptureContainerComponent, ComponentShutdown>(OnShutdown);
+
         LoadPrototypes();
     }
 
@@ -39,6 +45,25 @@ public sealed class ScriptureSystem : EntitySystem
         LoadPrototypes();
     }
 
+    /// <summary>
+    ///  Initialize the scripture container on the entity
+    /// </summary>
+    private void OnCompInit(Entity<ScriptureContainerComponent> ent, ref ComponentInit args)
+    {
+        ent.Comp.Scriptures = _container.EnsureContainer<Container>(ent, ScriptureContainerComponent.ContainerId);
+    }
+
+    /// <summary>
+    ///  Clear the scripture container
+    /// </summary>
+    private void OnShutdown(Entity<ScriptureContainerComponent> ent, ref ComponentShutdown args)
+    {
+        if (ent.Comp.Scriptures is not { } container)
+            return;
+
+        _container.ShutdownContainer(container);
+    }
+
     private void LoadPrototypes()
     {
         AllScriptures.Clear();
@@ -46,10 +71,42 @@ public sealed class ScriptureSystem : EntitySystem
         foreach (var proto in _proto.EnumeratePrototypes<EntityPrototype>())
         {
             if (!proto.Components.ContainsKey(scripture))
-                return;
+                continue;
 
             var id = proto.ID;
             AllScriptures.Add(id);
         }
+    }
+
+    #region Public Api
+
+    /// <summary>
+    /// Tries to add a scripture to an entity,
+    /// ensures <see cref="ScriptureContainerComponent"/> if it doesn't exist on the target.
+    /// </summary>
+    /// <returns></returns>
+    public bool TryAddScripture(EntityUid target, EntProtoId scriptureProto)
+    {
+        if (!CanAddScripture(target, scriptureProto))
+            return false;
+
+        EnsureComp<ScriptureContainerComponent>(target);
+
+        if (!PredictedTrySpawnInContainer(scriptureProto, target, ScriptureContainerComponent.ContainerId, out _))
+            return false;
+
+        return true;
+    }
+    #endregion
+
+    private bool CanAddScripture(EntityUid target, EntProtoId scripture)
+    {
+        if (!_proto.Resolve(scripture, out var scriptureData))
+            return false;
+
+        if (!scriptureData.HasComponent<ScriptureComponent>())
+            return false;
+
+        return true;
     }
 }

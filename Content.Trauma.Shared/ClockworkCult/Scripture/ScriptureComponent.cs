@@ -8,7 +8,5 @@ namespace Content.Trauma.Shared.ClockworkCult.Scripture;
 /// Attach this to anything that you want to appear in the Clockwork Slab
 /// </summary>
 [RegisterComponent, NetworkedComponent]
-public sealed partial class ScriptureComponent : Component
-{
-    // TODO: Implement
-}
+[Access(typeof(ScriptureSystem))]
+public sealed partial class ScriptureComponent : Component;
