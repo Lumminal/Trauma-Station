@@ -1,0 +1,23 @@
+- type: entity
+  id: ClockworkSlab
+  parent: BaseItem
+  name: Clockwork Slab
+  description: a
+  components:
+  - type: Sprite
+    sprite: _ShitChap/Objects/clockwork_slab.rsi
+    state: icon
+  - type: Item
+    inHandVisuals:
+      left:
+      - state: inhand-left
+      right:
+      - state: inhand-right
+  - type: ClockworkSlab
+  - type: ActivatableUI
+    key: enum.ClockworkSlabUiKey.Key
+    inHandsOnly: true
+  - type: UserInterface
+    interfaces:
+      enum.ClockworkSlabUiKey.Key:
+        type: ClockworkSlabBoundUserInterface

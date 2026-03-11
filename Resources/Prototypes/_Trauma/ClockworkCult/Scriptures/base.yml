@@ -1,0 +1,5 @@
+- type: entity
+  id: BaseScripture
+  abstract: true
+  components:
+  - type: Scripture

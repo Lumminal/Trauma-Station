@@ -1,0 +1,5 @@
+- type: entity
+  id: DummyScripture
+  parent: BaseScripture
+  name: Dummy Scripture
+  description: This is a dummy.
