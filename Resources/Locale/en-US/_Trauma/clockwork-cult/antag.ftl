@@ -1,4 +1,4 @@
-﻿role-clockwork-cultist = Clockwork Cultist
+role-clockwork-cultist = Clockwork Cultist
 
 roles-antag-clockwork-cultist-description = Harvest the power of the Cogs, and summon your God.
 

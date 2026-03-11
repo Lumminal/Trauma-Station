@@ -1,4 +1,6 @@
-﻿using Content.Server.Antag;
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+using Content.Server.Antag;
 using Content.Server.GameTicking.Rules;
 using Content.Shared.NPC.Systems;
 using Robust.Shared.Prototypes;
