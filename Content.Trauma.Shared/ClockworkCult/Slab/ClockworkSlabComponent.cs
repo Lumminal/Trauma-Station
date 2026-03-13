@@ -11,9 +11,7 @@ namespace Content.Trauma.Shared.ClockworkCult.Slab;
 /// </summary>
 [RegisterComponent, NetworkedComponent]
 [Access(typeof(ClockworkSlabSystem))]
-public sealed partial class ClockworkSlabComponent : Component
-{
-}
+public sealed partial class ClockworkSlabComponent : Component;
 
 [Serializable, NetSerializable]
 public enum ClockworkSlabUiKey : byte

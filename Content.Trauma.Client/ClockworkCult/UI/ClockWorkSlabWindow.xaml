@@ -4,6 +4,43 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <controls:FancyWindow xmlns="https://spacestation14.io"
     xmlns:controls="using:Content.Client.UserInterface.Controls"
-    Title="Clockwork Slab"
-    MinSize="450 400"> <!-- TODO: LOC TITLE -->
+    Title="{Loc 'cogslab-window'}"
+    MinSize="700 600"
+    Resizable="False">
+    <BoxContainer Name="Menu" Orientation="Horizontal">
+        <BoxContainer Orientation="Vertical"
+                      HorizontalExpand="True"
+                      Margin="30 20">
+
+            <Label Text="{Loc 'cogslab-book-title'}"
+                   HorizontalAlignment="Center"
+                   Margin="0 0 0 20" />
+
+            <BoxContainer HorizontalAlignment="Center" VerticalExpand="True">
+                <RichTextLabel
+                    Text="{Loc 'cogslab-book-description'}"
+                    MaxWidth="250"
+                    HorizontalAlignment="Center" />
+            </BoxContainer>
+        </BoxContainer>
+
+        <controls:HLine Color="#444"
+                        SetWidth="2"
+                        VerticalExpand="True"
+                        Margin="2 10" />
+
+        <BoxContainer Orientation="Vertical"
+                      HorizontalExpand="True"
+                      Margin="30 20">
+
+            <Label Text="{Loc 'cogslab-sections'}"
+                   HorizontalAlignment="Center"
+                   Margin="0 0 0 20" />
+
+            <BoxContainer Orientation="Vertical" HorizontalAlignment="Center">
+                <Button Name="SectionOne" Text="{Loc 'cogslab-act-one'}" Margin="0 5" />
+                <Button Name="SectionTwo" Text="{Loc 'cogslab-act-two'}" Margin="0 5" />
+            </BoxContainer>
+        </BoxContainer>
+    </BoxContainer>
 </controls:FancyWindow>

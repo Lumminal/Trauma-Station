@@ -29,5 +29,4 @@ public sealed class ClockworkSlabSystem : EntitySystem
             _scripture.TryAddScripture(ent.Owner, scripture);
         }
     }
-
 }

@@ -87,7 +87,7 @@ public sealed class ScriptureSystem : EntitySystem
     /// <returns></returns>
     public bool TryAddScripture(EntityUid target, EntProtoId scriptureProto)
     {
-        if (!CanAddScripture(target, scriptureProto))
+        if (!CanAddScripture(scriptureProto))
             return false;
 
         EnsureComp<ScriptureContainerComponent>(target);
@@ -99,7 +99,7 @@ public sealed class ScriptureSystem : EntitySystem
     }
     #endregion
 
-    private bool CanAddScripture(EntityUid target, EntProtoId scripture)
+    private bool CanAddScripture(EntProtoId scripture)
     {
         if (!_proto.Resolve(scripture, out var scriptureData))
             return false;

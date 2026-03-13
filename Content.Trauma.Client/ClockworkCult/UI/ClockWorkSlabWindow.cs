@@ -12,6 +12,42 @@ public sealed partial class ClockWorkSlabWindow : FancyWindow
     public ClockWorkSlabWindow()
     {
         RobustXamlLoader.Load(this);
+
+        SectionOne.OnPressed += _ => SetupSection(ClockworkSlabSection.Guide);
+        SectionTwo.OnPressed += _ => SetupSection(ClockworkSlabSection.Scriptures);
     }
 
+    private void SetupSection(ClockworkSlabSection section)
+    {
+        ClearMenu();
+        // The sections are hardcoded because the Clockwork Slab is not meant to be re-usable
+        switch (section)
+        {
+            case ClockworkSlabSection.Guide:
+            {
+                // baseg (should probably unhardcode everything)
+                var dummyPage = new CogSlabPage();
+                dummyPage.SetPageContent("test test test test test test");
+                dummyPage.SetPageTitle("The Guide");
+
+                var dummySection = new CogSlabSection();
+                dummySection.AddPage(dummyPage);
+
+                Menu.AddChild(dummySection);
+                break;
+            }
+        }
+    }
+
+    private void ClearMenu()
+    {
+        Menu.DisposeAllChildren();
+        Menu.Visible = false; // untested
+    }
+}
+
+public enum ClockworkSlabSection : byte
+{
+    Guide,
+    Scriptures,
 }
