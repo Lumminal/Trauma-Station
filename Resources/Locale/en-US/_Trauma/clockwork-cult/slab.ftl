@@ -1,4 +1,4 @@
-﻿cogslab-window = Clockwork Slab
+cogslab-window = Clockwork Slab
 cogslab-book-title = The Book of the Clock
 cogslab-book-description =
     This book holds knowledge that is required to serve and summon Rat'Var.
