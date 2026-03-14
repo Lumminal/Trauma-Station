@@ -8,7 +8,7 @@ namespace Content.Shared.Revenant.Components;
 /// Makes the target solid, visible, and applies a slowdown.
 /// Meant to be used in conjunction with statusEffectSystem
 /// </summary>
-[RegisterComponent] 
+[RegisterComponent]
 [NetworkedComponent, AutoGenerateComponentState] // Trauma
 public sealed partial class CorporealComponent : Component
 {
