@@ -19,30 +19,17 @@ public sealed partial class ClockWorkSlabWindow : FancyWindow
 
     private void SetupSection(ClockworkSlabSection section)
     {
-        ClearMenu();
-        // The sections are hardcoded because the Clockwork Slab is not meant to be re-usable
+        Menu.Visible = false;
+
         switch (section)
         {
             case ClockworkSlabSection.Guide:
             {
-                // baseg (should probably unhardcode everything)
-                var dummyPage = new CogSlabPage();
-                dummyPage.SetPageContent("test test test test test test");
-                dummyPage.SetPageTitle("The Guide");
-
-                var dummySection = new CogSlabSection();
-                dummySection.AddPage(dummyPage);
-
-                Menu.AddChild(dummySection);
+                var guideSection = new CogSlabGuideSection();
+                ViewContainer.AddChild(guideSection);
                 break;
             }
         }
-    }
-
-    private void ClearMenu()
-    {
-        Menu.DisposeAllChildren();
-        Menu.Visible = false; // untested
     }
 }
 

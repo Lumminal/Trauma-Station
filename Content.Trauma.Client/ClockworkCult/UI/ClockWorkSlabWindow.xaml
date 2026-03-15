@@ -7,39 +7,42 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     Title="{Loc 'cogslab-window'}"
     MinSize="700 600"
     Resizable="False">
-    <BoxContainer Name="Menu" Orientation="Horizontal">
-        <BoxContainer Orientation="Vertical"
-                      HorizontalExpand="True"
-                      Margin="30 20">
+    <BoxContainer Name="ViewContainer" Orientation="Vertical" VerticalExpand="True">
+        <BoxContainer Name="Menu">
+            <BoxContainer Orientation="Vertical"
+                          HorizontalExpand="True"
+                          Margin="30 20">
 
-            <Label Text="{Loc 'cogslab-book-title'}"
-                   HorizontalAlignment="Center"
-                   Margin="0 0 0 20" />
+                <Label Text="{Loc 'cogslab-book-title'}"
+                       HorizontalAlignment="Center"
+                       Margin="0 0 0 20" />
 
-            <BoxContainer HorizontalAlignment="Center" VerticalExpand="True">
-                <RichTextLabel
-                    Text="{Loc 'cogslab-book-description'}"
-                    MaxWidth="250"
-                    HorizontalAlignment="Center" />
+                <BoxContainer HorizontalAlignment="Center" VerticalExpand="True">
+                    <RichTextLabel
+                        Text="{Loc 'cogslab-book-description'}"
+                        MaxWidth="250"
+                        HorizontalAlignment="Center" />
+                </BoxContainer>
             </BoxContainer>
-        </BoxContainer>
 
-        <controls:HLine Color="#444"
-                        SetWidth="2"
-                        VerticalExpand="True"
-                        Margin="2 10" />
+            <controls:HLine Color="#444"
+                            SetWidth="4"
+                            SetHeight="500"
+                            VerticalExpand="True"
+                            Margin="2 10" />
 
-        <BoxContainer Orientation="Vertical"
-                      HorizontalExpand="True"
-                      Margin="30 20">
+            <BoxContainer Orientation="Vertical"
+                          HorizontalExpand="True"
+                          Margin="30 20">
 
-            <Label Text="{Loc 'cogslab-sections'}"
-                   HorizontalAlignment="Center"
-                   Margin="0 0 0 20" />
+                <Label Text="{Loc 'cogslab-sections'}"
+                       HorizontalAlignment="Center"
+                       Margin="0 0 0 20" />
 
-            <BoxContainer Orientation="Vertical" HorizontalAlignment="Center">
-                <Button Name="SectionOne" Text="{Loc 'cogslab-act-one'}" Margin="0 5" />
-                <Button Name="SectionTwo" Text="{Loc 'cogslab-act-two'}" Margin="0 5" />
+                <BoxContainer Orientation="Vertical" HorizontalAlignment="Center">
+                    <Button Name="SectionOne" Text="{Loc 'cogslab-act-one'}" Margin="0 5" />
+                    <Button Name="SectionTwo" Text="{Loc 'cogslab-act-two'}" Margin="0 5" />
+                </BoxContainer>
             </BoxContainer>
         </BoxContainer>
     </BoxContainer>

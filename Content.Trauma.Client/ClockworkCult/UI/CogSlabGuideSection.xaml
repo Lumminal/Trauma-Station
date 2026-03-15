@@ -1,0 +1,21 @@
+﻿<controls:CogSlabSection
+    xmlns="https://spacestation14.io"
+    xmlns:controls="clr-namespace:Content.Trauma.Client.ClockworkCult.UI">
+
+    <controls:CogSlabPage
+        PageTitleText="lmao"
+        FirstPageContentText="{Loc 'cogslab-page-test'}"
+        SecondPageContentText="{Loc 'cogslab-page-test'}">
+    </controls:CogSlabPage>
+
+    <controls:CogSlabPage
+        FirstPageContentText="{Loc 'cogslab-page-test'}"
+        SecondPageContentText="{Loc 'cogslab-page-test'}">
+    </controls:CogSlabPage>
+
+    <controls:CogSlabPage
+        FirstPageContentText="WHAT"
+        SecondPageContentText="NOOOOOOOOO">
+    </controls:CogSlabPage>
+
+</controls:CogSlabSection>

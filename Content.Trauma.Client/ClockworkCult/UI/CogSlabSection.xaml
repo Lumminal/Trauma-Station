@@ -6,11 +6,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     xmlns="https://spacestation14.io"
     xmlns:controls="clr-namespace:Content.Trauma.Client.ClockworkCult.UI">
 
-    <BoxContainer Name="PageHolder" VerticalExpand="True" HorizontalExpand="True" />
-
-    <BoxContainer Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10">
-        <Button Name="PrevButton" Text="" />
-        <Label Name="PageCounter" Text="1 / 1" Margin="10 0" VerticalAlignment="Center" />
-        <Button Name="NextButton" Text=">" />
+    <BoxContainer Name="PageHolder" Orientation="Vertical" VerticalExpand="True"/>
+    <BoxContainer Orientation="Horizontal" HorizontalAlignment="Center">
+        <BoxContainer VerticalAlignment="Bottom">
+            <Button Name="PrevButton" Visible="false" Text="" />
+            <Label Name="PageCounter" Text="1 | 1" />
+            <Button Name="NextButton" Visible="false" Text=">" />
+        </BoxContainer>
     </BoxContainer>
 </controls:CogSlabSection>

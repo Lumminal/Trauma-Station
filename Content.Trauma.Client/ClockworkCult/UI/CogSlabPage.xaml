@@ -3,33 +3,38 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <BoxContainer xmlns="https://spacestation14.io"
-              xmlns:controls="using:Content.Client.UserInterface.Controls"
-              Orientation="Horizontal">
-
+              xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls;assembly=Content.Client"
+              Orientation="Horizontal"
+              HorizontalExpand="True"
+              VerticalExpand="True">
     <BoxContainer Orientation="Vertical"
                   HorizontalExpand="True"
-                  Margin="25 20">
+                  Margin="0 20">
 
         <Label Name="PageTitle"
-               HorizontalAlignment="Center"
-               StyleClasses="LabelBig"
-               Margin="0 0 0 15" />
+               HorizontalAlignment="Center"/>
 
-        <RichTextLabel Name="FirstPageContent"
-                       HorizontalExpand="True"
-                       Margin="10 0" />
+        <BoxContainer HorizontalAlignment="Center" VerticalExpand="True">
+            <RichTextLabel Name="FirstPageContent"
+                           MaxWidth="250"
+                           MaxHeight="500"
+                           HorizontalAlignment="Center"/>
+        </BoxContainer>
     </BoxContainer>
 
-    <controls:HLine Color="#555"
-                    SetWidth="2"
-                    VerticalExpand="True"
-                    Margin="0 15" />
+    <controls:HLine Color="#444"
+                    SetWidth="6"
+                    SetHeight="550"/>
 
     <BoxContainer Orientation="Vertical"
                   HorizontalExpand="True"
-                  Margin="25 20">
-        <RichTextLabel Name="SecondPageContent"
-                       HorizontalExpand="True"
-                       Margin="10 0" />
+                  Margin="0 20">
+
+        <BoxContainer HorizontalAlignment="Center" VerticalExpand="True">
+            <RichTextLabel Name="SecondPageContent"
+                           MaxWidth="250"
+                           MaxHeight="500"
+                           HorizontalAlignment="Center"/>
+        </BoxContainer>
     </BoxContainer>
 </BoxContainer>
