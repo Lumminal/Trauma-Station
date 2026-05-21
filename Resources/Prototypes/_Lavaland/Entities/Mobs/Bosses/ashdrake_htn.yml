@@ -1,0 +1,23 @@
+﻿- type: megafaunaSelector
+  id: AshDrake
+  selector: !type:AllMegafaunaSelector
+    children:
+    - id: PickTargetSimple
+    - id: AshDrakeActions
+
+- type: megafaunaSelector
+  id: AshDrakeActions
+  selector: !type:GroupMegafaunaSelector
+    children:
+    - id: ActionAshDrakeFireCone
+
+- type: megafaunaSelector
+  id: ActionAshDrakeFireCone
+  selector: !type:PerformActionSelector
+    delay: !type:AngerNumberSelector
+      range: 1.0,4.0
+      inverse: true
+    actionId: ActionAshDrakeFireCone
+    conditions:
+    - !type:ActionAvailableCondition
+      actionId: ActionAshDrakeFireCone

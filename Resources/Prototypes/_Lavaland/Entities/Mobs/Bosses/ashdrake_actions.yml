@@ -1,0 +1,101 @@
+﻿# Actions
+- type: entity
+  id: ActionAshDrakeFireCone
+  name: Fire Cone
+  description: Blasts a deadly cone of fire in all cardinal directions.
+  components:
+  - type: Action
+    priority: -21
+    useDelay: 2
+    icon:
+      sprite: _Lavaland/Objects/Weapons/hierophant_club.rsi
+      state: icon
+    itemIconStyle: NoItem
+  - type: TargetAction
+    checkCanAccess: false
+    range: 30
+  - type: AngerDelayAction
+    minDelay: 1.5
+    maxDelay: 4.0
+    inverse: true
+  - type: WorldTargetAction
+    event: !type:SpawnEntityActionEvent
+      spawnAtUser: true
+      spawn: AshDrakeFireCone
+
+- type: entity
+  parent: MarkerBase
+  id: AshDrakeFireCone
+  name: ash drake fire cone spawner
+  suffix: Anger
+  # categories: [ HideSpawnMenu, Spawner ]
+  components:
+  - type: Sprite
+    state: red
+  - type: ShapeSpawner
+    spawn: DrakeFireBall
+    shape: !type:AllEntityShape
+      children:
+      - id: FireLineFront
+      - id: FireLineLeft
+      - id: FireLineRight
+  - type: ShapeSpawnerCounter
+    spawnPeriod: 0.1
+  - type: AngerShapeSpawner
+    counterRange: 3,8
+    periodRange: 0.2,0.7
+    inversePeriod: true
+  - type: ExpandingShapeSpawner
+    counterSize: 1
+
+- type: entityShape
+  id: FireLineFront
+  shape: !type:LineEntityShape
+    direction: 0,-1
+    size: 15
+
+- type: entityShape
+  id: FireLineLeft
+  shape: !type:LineEntityShape
+    direction: -0.64, 0.76
+    size: 15
+
+- type: entityShape
+  id: FireLineRight
+  shape: !type:LineEntityShape
+    direction: 0.64, 0.76
+    size: 15
+
+- type: entity
+  id: DrakeFireBall
+  components:
+  - type: PointLight
+    color: "#E25822"
+    radius: 2.0
+    energy: 5.0
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Projectiles/magic.rsi
+    layers:
+    - state: fireball
+      shader: unshaded
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fireball:
+        shape: !type:PhysShapeCircle
+          radius: 0.3
+          position: "0,-0.2"
+        hard: false
+        density: 20
+        mask:
+        - ThrownItem
+  - type: TriggerOnCollide
+    fixtureID: fireball
+    maxTriggers: 1
+  - type: DamageOnTrigger
+    targetUser: true
+    damage:
+      types:
+        Heat: 20
+  - type: TimedDespawn
+    lifetime: 0.8
