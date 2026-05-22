@@ -8,7 +8,12 @@
 
 	<ItemGroup>
 		<ProjectReference Include="../Content.Goobstation.Shared/Content.Goobstation.Shared.csproj" />
+		<ProjectReference Include="../Content.Lavaland.Shared/Content.Lavaland.Shared.csproj" />
 		<ProjectReference Include="../Content.Shared/Content.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Lavaland\Megafauna\Selectors\" />
 	</ItemGroup>
 
 	<Import Project="../RobustToolbox/Imports/Shared.props" />

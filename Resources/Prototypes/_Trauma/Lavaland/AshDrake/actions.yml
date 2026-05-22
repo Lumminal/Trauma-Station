@@ -1,0 +1,29 @@
+﻿- type: entity
+  id: ActionFireCone
+  name: Fire Cone
+  description: Fires a cone in all cardinal directions
+  components:
+  - type: Action
+    useDelay: 4
+    raiseOnAction: true
+  - type: InstantAction
+    event: !type:ActionDirectionEntitySpawnEvent
+  - type: DirectionalEntitySpawnComponent
+    north: AshDrakeFireConeNorth
+    west:  AshDrakeFireConeWest
+    east:  AshDrakeFireConeEast
+    south: AshDrakeFireConeSouth
+
+- type: entity
+  id: ActionAshDrakeMeteors
+  name: Fire Meteor
+  description: Fires meteors around an area
+  components:
+  - type: Action
+    useDelay: 1
+  - type: TargetAction
+    range: 8
+  - type: WorldTargetAction
+    event: !type:SpawnEntityActionEvent
+      spawn: AshDrakeMeteor
+      spawnAtUser: true

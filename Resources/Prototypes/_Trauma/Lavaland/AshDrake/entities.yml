@@ -1,0 +1,111 @@
+﻿# Fire Cone
+- type: entity
+  abstract: true
+  parent: MarkerBase
+  id: AshDrakeFireConeBase
+  suffix: Anger
+  components:
+  - type: Sprite
+    state: red
+  - type: ShapeSpawner
+    spawn: LavalandHierophantSquare
+  - type: ShapeSpawnerCounter
+  - type: AngerShapeSpawner
+    counterRange: 3,8
+    periodRange: 0.2,0.7
+    inversePeriod: true
+  - type: ExpandingShapeSpawner
+    counterSize: 1
+
+- type: entity
+  parent: AshDrakeFireConeBase
+  id: AshDrakeFireConeEast
+  name: ash drake fire cone east expanding spawner
+  components:
+  - type: ShapeSpawner
+    shape: !type:AllEntityShape
+      children:
+      - !type:LineEntityShape
+        direction: 0.5, 0.5
+        size: 8
+      - !type:LineEntityShape
+        direction: 0.5, -0.5
+        size: 8
+      - !type:LineEntityShape
+        direction: 1, 0
+        size: 8
+
+- type: entity
+  parent: AshDrakeFireConeBase
+  id: AshDrakeFireConeSouth
+  name: ash drake fire cone south expanding spawner
+  components:
+  - type: ShapeSpawner
+    shape: !type:AllEntityShape
+      children:
+      - !type:LineEntityShape
+        direction: 0.5, -0.5
+        size: 8
+      - !type:LineEntityShape
+        direction: -0.5, -0.5
+        size: 8
+      - !type:LineEntityShape
+        direction: 0,-1
+        size: 8
+
+- type: entity
+  parent: AshDrakeFireConeBase
+  id: AshDrakeFireConeWest
+  name: ash drake fire cone west expanding spawner
+  components:
+  - type: ShapeSpawner
+    shape: !type:AllEntityShape
+      children:
+      - !type:LineEntityShape
+        direction: -0.5, 0.5
+        size: 8
+      - !type:LineEntityShape
+        direction: -0.5, -0.5
+        size: 8
+      - !type:LineEntityShape
+        direction: -1,0
+        size: 8
+
+- type: entity
+  parent: AshDrakeFireConeBase
+  id: AshDrakeFireConeNorth
+  name: ash drake fire cone north expanding spawner
+  components:
+  - type: ShapeSpawner
+    shape: !type:AllEntityShape
+      children:
+      - !type:LineEntityShape
+        direction: 0.5, 0.5
+        size: 8
+      - !type:LineEntityShape
+        direction: -0.5, 0.5
+        size: 8
+      - !type:LineEntityShape
+        direction: 0,1
+        size: 8
+
+# Meteors
+- type: entity
+  parent: MarkerBase
+  id: AshDrakeMeteor
+  suffix: Anger
+  components:
+  - type: Sprite
+    state: red
+  - type: ShapeSpawner
+    spawn: LavalandHierophantSquare
+    shape: !type:BoxRandomEntityShape
+      filledChance: 0.2
+      size: 25
+  - type: ShapeSpawnerCounter
+  - type: AngerShapeSpawner
+    counterRange: 3,8
+    periodRange: 0.2,0.7
+    inversePeriod: true
+  - type: ExpandingShapeSpawner
+    counterSize: 1

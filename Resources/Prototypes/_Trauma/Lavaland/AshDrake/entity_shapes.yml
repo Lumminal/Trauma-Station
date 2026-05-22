@@ -1,0 +1,4 @@
+﻿# Spawns if user is facing at (1, 0)
+- type: entityShape
+  id: FireLineRight
+  shape: !type:LineEntityShape

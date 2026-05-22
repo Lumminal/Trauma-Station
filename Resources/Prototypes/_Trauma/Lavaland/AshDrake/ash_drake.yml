@@ -1,4 +1,4 @@
-- type: entity
+﻿- type: entity
   id: MobAshDrake
   name: ash drake
   description: Guardian of the Necropolis.
@@ -24,6 +24,9 @@
   - type: Clickable
   - type: InteractionOutline
   - type: InputMover
+  - type: NpcFactionMember
+    factions:
+    - SimpleHostile
   - type: Input
     context: "human"
   - type: LagCompensation
@@ -59,10 +62,15 @@
     damage:
       types:
         Slash: 40
+  # Simple AI, handles moving towards targets
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
   # Boss Components
   - type: ActionGrant
     actions:
-    - ActionAshDrakeFireCone
+    - ActionFireCone
+    - ActionAshDrakeMeteors
   - type: Fauna
   - type: Anger
     totalHp: 2500

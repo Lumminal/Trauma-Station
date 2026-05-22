@@ -10,6 +10,7 @@
   selector: !type:GroupMegafaunaSelector
     children:
     - id: ActionAshDrakeFireCone
+    - id: ActionAshDrakeFireMeteors
 
 - type: megafaunaSelector
   id: ActionAshDrakeFireCone
@@ -17,7 +18,18 @@
     delay: !type:AngerNumberSelector
       range: 1.0,4.0
       inverse: true
-    actionId: ActionAshDrakeFireCone
+    actionId: ActionFireCone
     conditions:
     - !type:ActionAvailableCondition
-      actionId: ActionAshDrakeFireCone
+      actionId: ActionFireCone
+
+- type: megafaunaSelector
+  id: ActionAshDrakeFireMeteors
+  selector: !type:PerformActionSelector
+    delay: !type:AngerNumberSelector
+      range: 1.0,4.0
+      inverse: true
+    actionId: ActionAshDrakeMeteors
+    conditions:
+    - !type:ActionAvailableCondition
+      actionId: ActionAshDrakeMeteors
